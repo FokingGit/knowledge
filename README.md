@@ -10,7 +10,7 @@
 
 ### 2018.5.21 
 
-- [《Gradle For Android》 第二章：基本自定义构建](https://github.com/FokingGit/knowledge/blob/master/Gradle%20For%20Android/%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%9A%E5%9F%BA%E6%9C%AC%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9E%84%E5%BB%BA.md)
+- [《Gradle For Android》 第二章：基本自定义构建](Gradle-For-Android/第二章：基本自定义构建.md)
 
 ### 2018.5.9
 
