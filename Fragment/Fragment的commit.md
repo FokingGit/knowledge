@@ -242,9 +242,51 @@ int commitInternal(boolean allowStateLoss) {
     }
 ```
 
-重复提交会报错，
+重复提交会报错，如果这个Fragment添加到返回栈中，那么会申请一个索引返回，最后调用FragmentManagerImpl中的enqueueActon。
 
+```java
+ /**
+     * Adds an action to the queue of pending actions.
+     *
+     * @param action the action to add
+     * @param allowStateLoss whether to allow loss of state information
+     * @throws IllegalStateException if the activity has been destroyed
+     */
+    public void enqueueAction(OpGenerator action, boolean allowStateLoss) {
+        if (!allowStateLoss) {
+            checkStateLoss();
+        }
+        synchronized (this) {
+            if (mDestroyed || mHost == null) {
+                if (allowStateLoss) {
+                    // This FragmentManager isn't attached, so drop the entire transaction.
+                    return;
+                }
+                throw new IllegalStateException("Activity has been destroyed");
+            }
+            if (mPendingActions == null) {
+                mPendingActions = new ArrayList<>();
+            }
+            mPendingActions.add(action);
+            scheduleCommit();
+        }
+    }
+```
 
+如果allowStateLoss为false,则调用checkStateLoss
+
+```java
+private void checkStateLoss() {
+        if (mStateSaved) {
+            throw new IllegalStateException(
+                    "Can not perform this action after onSaveInstanceState");
+        }
+        if (mNoTransactionsBecause != null) {
+            throw new IllegalStateException(
+                    "Can not perform this action inside of " + mNoTransactionsBecause);
+        }
+    }
+```
 
 
 
