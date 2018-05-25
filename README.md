@@ -1,6 +1,6 @@
 # Record List
 
-###2018.5.25
+### 2018.5.25
 
 - [《Gradle For Android》第四章：创建构建Variant](Gradle-For-Android/第四章：创建构建Variant.md)
 
