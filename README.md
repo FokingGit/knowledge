@@ -1,6 +1,10 @@
 # Record List
 
-### 2015.5.24
+###2018.5.25
+
+- [《Gradle For Android》第四章：创建构建Variant](Gradle-For-Android/第四章：创建构建Variant.md)
+
+### 2018.5.24
 
 - [NDK开发](NDK开发/NDK开发.md)
 
