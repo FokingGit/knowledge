@@ -5,6 +5,24 @@
 - 所依附的宿主Activity的生命周期
 - 在Activity中Fragment切换显示
 
+```java
+public class Fragment implements ComponentCallbacks, OnCreateContextMenuListener, LifecycleOwner,
+        ViewModelStoreOwner {
+    ...        
+    static final int INITIALIZING = 0;     // Not yet created.
+    static final int CREATED = 1;          // Created.
+    static final int ACTIVITY_CREATED = 2; // The activity has finished its creation.
+    static final int STOPPED = 3;          // Fully created, not started.
+    static final int STARTED = 4;          // Created and started, not resumed.
+    static final int RESUMED = 5;          // Created started and resumed.
+
+    int mState = INITIALIZING;
+    ...
+}
+```
+
+
+
 那么接下来我们由这两方面来阐述Fragment的生命周期
 
 > 跟随宿主Activity的生命周期
