@@ -78,12 +78,36 @@
   当应用处于后台的时候，位置更新不会已原来的频率更新位置；同样情况下，就算startScan()系统也只会返回上一次Scan的结果；
   ```
 
-  ​
-
 * 语言区域国际化
 
   * 使用DISPLAYl类别语言区域的时候，函数使用 Locale.getDefault(Category.DISPLAY) 来代替 Locale.getDefault()
   * 调用 Currency.getDisplayName(null) 会引发 NullPointerException （不知道是干啥的？）
+
+* Android通知栏适配(8.0)
+
+  - 渠道:可以设置不同渠道的通知栏提示，用户可以自行设置针接收的渠道消息
+  ```Java
+  private void initView() {
+     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+         String channelId = "chat";
+         String channelName = "聊天消息";
+         int importance = NotificationManager.IMPORTANCE_HIGH;
+         createNotificationChannel(channelId, channelName, importance);
+  
+         channelId = "subscribe";
+         channelName = "订阅消息";
+         importance = NotificationManager.IMPORTANCE_DEFAULT;
+         createNotificationChannel(channelId, channelName, importance);
+          }
+      }
+      @TargetApi(Build.VERSION_CODES.O)
+      private void createNotificationChannel(String channelId, String channelName, int importance) {
+          NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+          NotificationManager notificationManager = (NotificationManager) getSystemService(
+                  NOTIFICATION_SERVICE);
+          notificationManager.createNotificationChannel(channel);
+      }
+  ```
 
 ### 适配Android P
 
