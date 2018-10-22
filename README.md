@@ -48,7 +48,6 @@
 
 - 负责SDK从1.X到2.X版本的重构,设计组件化的架构,将原本臃肿的SDK分拆分为5个模块
 - 独立负责common模块的开发,协助matrix-app和matrix-local模块,在开发过程中加强了对设计模式的理解
-
 - 使用Socket基于UDP和TCP完成与设备局域网通信
 - 增强SDK的安全性,参与和后端同学设计请求鉴权方式,添加SSL pining和混淆
 - 基于WebSocket协议,完成设备数据的订阅和推送
