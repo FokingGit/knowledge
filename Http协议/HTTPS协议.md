@@ -8,8 +8,6 @@
 - Android7.0转HTTPS包问题
 - Charles抓包原理
 
-如果有同学没看懂,欢迎吐槽,我再修正!
-
 ## HTTPS协议: Http over SSL/TLS
 
 https相比http,是在应用层和传输层之间添加了一个安全层,或者叫SSL/TLS层.
