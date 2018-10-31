@@ -1,4 +1,6 @@
-#### 自定义View的流程，自定义View需要注意的问题
+[TOC]
+
+### 自定义View的流程，自定义View需要注意的问题
 
 - 配置warp_content
 
@@ -9,6 +11,24 @@
 自定义View需要重写onMeasure方法来处理wrap_content,不需要重写onLayout方法,注意在onDraw方法中处理padding、margin
 
 ### invalidate、postInvalidate、requestLayout的区别
+
+- View的requestLayout()方法,内部是调用了`mParent.requestLayout();`而mParent()是通过以下方式设置的.在ViewRootImpl#setView()方法中调用.
+
+  ```java
+   void assignParent(ViewParent parent) {
+          if (mParent == null) {
+              mParent = parent;
+          } else if (parent == null) {
+              mParent = null;
+          } else {
+              throw new RuntimeException("view " + this + " being added, but"
+                      + " it already has a parent");
+          }
+      }
+  ```
+
+- invalidate ->invalidate(true)->invalidateInternal()最终调用了mParent.invalidateChild(View,React),而到了ViewRootImpl中最终调用了`invalidateRectOnScreen(dirty);`重绘指定区域
+- postInvalidate()其实本质上并没有什么改变,是通过Handler机制发了一条mag的what为MSG_INVALIDATE_RECT,的消息,在ViewRootimpl中又调用了View.invalidate()
 
 ### View的绘制流程
 
