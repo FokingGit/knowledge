@@ -13,6 +13,7 @@
 ### 适配7.0
 
 * 针对应用间共享文件
+
   * FileProvider的使用
 
 * 移除了三种广播：后台的App将不能监听到这三种广播，当App处于前台，并且通过context.registerBroadcast的方式是可以监听到这些广播的
@@ -30,6 +31,8 @@
 
   - Configration.local(7.0以上过期)
   - Configration.getLocalList().get(0) 7.0 以上使用
+
+- 不信任用户证书 例如抓包的时候
 
 ### 适配8.0
 
