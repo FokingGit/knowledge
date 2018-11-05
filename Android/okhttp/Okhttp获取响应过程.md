@@ -237,6 +237,7 @@ okhttp中的网络连接由`RealConnection`来管理,`RealConnection`是`Connect
 
 1. 在建立过程中区别是建立隧道模式还是建立Socket模式
 2. 当链接建立完成之后,需要建立协议,相关协议 http1、http1.1、http2、https(需要建立TLS层)
+3. 握手的时候是使用SSLSocket Javax.net包下的
 
 几个重要的字段:
 
@@ -399,7 +400,7 @@ private final Runnable cleanupRunnable = new Runnable() {
 
     closeQuietly(longestIdleConnection.socket());
 
-    // Cleanup again immediately.
+    // Cleanup  again immediately.
     return 0;
   }
 ```

@@ -1,17 +1,16 @@
 [TOC]
 
->进程和线程
+#### 进程和线程
 
  进程：是系统进行资源分配和调度的一个独立单位，也是一个具有独立功能的程序；
  线程：线程是进程的一个实体,是CPU调度和分派的基本单位,它是比进程更小的能独立运行的基本单位.线程自己基本上不拥有系统资源,只拥有一点在运行中必不可少的资源(如程序计数器,一组寄存器和栈),但是它可与同属一个进程的其他的线程共享进程所拥有的全部资源。
 
-那么系统在创建进程的时候会分配什么资源呢？可参考[App启动流程](http://www.jianshu.com/p/8b58ef70c3ab)
-
 进程和线程的关系好比国有企业，进程就好比企业的董事长，他可以向国家财务部申请资金，财务部答应给两千万，好了，那么这些资金怎么用呢？是这个国有企业下面的每一个部门，这些个部门是最终消费的个个体，这就好比线程，是最终CPU调度和分配的基本单位。
 
->创建线程的方式
+#### 创建线程的方式
 
-###### 一、继承Thread类创建线程类
+##### 继承Thread类创建线程类
+
 （1）定义Thread类的子类，并重写该类的run方法，该run方法的方法体就代表了线程要完成的任务。因此把run()方法称为执行体。
 （2）创建Thread子类的实例，即创建了线程对象。
 （3）调用线程对象的start()方法来启动该线程
@@ -34,7 +33,8 @@ public class FirstThreadTest extends Thread{
     }  
 }  
 ```
-###### 二、通过Runnable接口创建线程类
+##### 通过Runnable接口创建线程类
+
 （1）定义runnable接口的实现类，并重写该接口的run()方法，该run()方法的方法体同样是该线程的线程执行体。
 （2）创建 Runnable实现类的实例，并依此实例作为Thread的target来创建Thread对象，该Thread对象才是真正的线程对象。
 （3）调用线程对象的start()方法来启动该线程。
@@ -61,13 +61,14 @@ public class RunnableThreadTest implements Runnable
     }  
 } 
 ```
-###### 三、通过Callable和Future创建线程
+##### 通过Callable和Future创建线程
+
 （1）创建Callable接口的实现类，并实现call()方法，该call()方法将作为线程执行体，并且有返回值。
 （2）创建Callable实现类的实例，使用FutureTask类来包装Callable对象，该FutureTask对象封装了该Callable对象的call()方法的返回值。
 （3）使用FutureTask对象作为Thread对象的target创建并启动新线程。
 （4）调用FutureTask对象的get()方法来获得子线程执行结束后的返回值。
 
-```
+```java
 package com.thread;  
   
 import java.util.concurrent.Callable;  
@@ -104,7 +105,8 @@ public class CallableThreadTest implements Callable<Integer>
     }  
 }
 ```
-###### 创建线程的三种方式的对比
+##### 创建线程的三种方式的对比
+
 采用实现Runnable、Callable接口的方式创见多线程时
 优势是：
 ​        线程类只是实现了Runnable接口或Callable接口，还可以继承其他类。
@@ -118,17 +120,21 @@ public class CallableThreadTest implements Callable<Integer>
 劣势是：
 线程类已经继承了Thread类，所以不能再继承其他父类。
 
->线程的五种状态
+#### 线程的五种状态
 
-###### 新建状态
+##### 新建状态
+
 当用new操作符创建一个线程时。此时程序还没有开始运行线程中的代码。
-###### 就绪状态
+##### 就绪状态
+
 一个新创建的线程并不自动开始运行，要执行线程，必须调用线程的start()方法。当线程对象调用start()方法即启动了线程，start()方法创建线程运行的系统资源，并调度线程运行run()方法。当start()方法返回后，线程就处于就绪状态。
 处于就绪状态的线程并不一定立即运行run()方法，线程还必须同其他线程竞争CPU时间，只有获得CPU时间才可以运行线程。因为在单CPU的计算机系统中，不可能同时运行多个线程，一个时刻仅有一个线程处于运行状态。因此此时可能有多个线程处于就绪状态。对多个处于就绪状态的线程是由Java运行时系统的线程调度程序来调度的。
 
-###### 运行状态（running）
+##### 运行状态（running）
+
 当线程获得CPU时间后，它才进入运行状态，真正开始执行run()方法。
-###### 阻塞状态（blocked）
+##### 阻塞状态（blocked）
+
 线程运行过程中，可能由于各种原因进入阻塞状态：
 1.线程通过调用sleep方法进入睡眠状态；
 2.线程调用一个在I/O上被阻塞的操作，即该操作在输入输出操作完成之前不会返回到它的调用者；
@@ -136,7 +142,8 @@ public class CallableThreadTest implements Callable<Integer>
 4.线程在等待某个触发条件；
 所谓阻塞状态是正在运行的线程没有运行结束，暂时让出CPU，这时其他处于就绪状态的线程就可以获得CPU时间，进入运行状态。
 
-###### 死亡状态（dead）
+##### 死亡状态（dead）
+
 有两个原因会导致线程死亡：
 1.run方法正常退出而自然死亡；
 2.一个未捕获的异常终止了run方法而使线程猝死；
@@ -151,9 +158,9 @@ public class CallableThreadTest implements Callable<Integer>
 圈5:输入、输出操作结束，或者解除了wait()或sleep()操作
 圈6:线程运行结束
 
->线程池
+#### 线程池
 
-###### 创建线程池的四种方式
+##### 创建线程池的四种方式
 
 ```java
 public static ExecutorService newSingleThreadExecutor() {
@@ -226,8 +233,6 @@ public ThreadPoolExecutor(int corePoolSize,
         this.handler = handler;
     }
 ```
-![](https://img-blog.csdn.net/20160724192641221)
-
 **注**:
 
 1. 当任务<=核心线程 使用核心线程执行任务
@@ -236,33 +241,43 @@ public ThreadPoolExecutor(int corePoolSize,
  	3. 当任务>核心线程,队列已满,开启新线程执行任务
  	4. 当线程数量>最大线程数量 根据Handler的不同,处理结果不同,默认情况下是
 
-###### corePoolSize
+- corePoolSize
 
-线程池中的核心线程数，当提交一个任务时，线程池创建一个新线程执行任务，直到当前线程数等于corePoolSize；如果当前线程数为corePoolSize，继续提交的任务被保存到阻塞队列中，等待被执行；如果执行了线程池的prestartAllCoreThreads()方法，线程池会提前创建并启动所有核心线程。
-###### maximumPoolSize
-线程池中允许的最大线程数。如果当前阻塞队列满了，且继续提交任务，则创建新的线程执行任务，前提是当前线程数小于maximumPoolSize；
-###### keepAliveTime
-线程空闲时的存活时间，即当线程没有任务执行时，继续存活的时间；默认情况下，该参数只在线程数大于corePoolSize时才有用；
-###### unit
-keepAliveTime的单位；
+  线程池中的核心线程数，当提交一个任务时，线程池创建一个新线程执行任务，直到当前线程数等于corePoolSize；如果当前线程数为corePoolSize，继续提交的任务会继续创建现线程,直到当前的线程数等于最大线程数,如果还有任务,被保存到阻塞队列中，等待被执行；如果执行了线程池的prestartAllCoreThreads()方法，线程池会提前创建并启动所有核心线程。
 
-###### workQueue
-用来保存等待被执行的任务的阻塞队列，且任务必须实现Runable接口，在JDK中提供了如下阻塞队列：
-1、ArrayBlockingQueue：基于数组结构的有界阻塞队列，按FIFO排序任务；
-2、LinkedBlockingQuene：基于链表结构的阻塞队列，按FIFO排序任务，吞吐量通常要高于ArrayBlockingQuene；
-3、SynchronousQuene：一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于LinkedBlockingQuene；
-4、priorityBlockingQuene：具有优先级的无界阻塞队列；
+- maximumPoolSize
 
-###### threadFactory
-创建线程的工厂，通过自定义的线程工厂可以给每个新建的线程设置一个具有识别度的线程名。
-###### handler
-线程池的饱和策略，当阻塞队列满了，且没有空闲的工作线程，如果继续提交任务，必须采取一种策略处理该任务，线程池提供了4种策略：
-1、AbortPolicy：直接抛出异常，默认策略；
-2、CallerRunsPolicy：用调用者所在的线程来执行任务；
-3、DiscardOldestPolicy：丢弃阻塞队列中靠最前的任务，并执行当前任务；
-4、DiscardPolicy：直接丢弃任务；当然也可以根据应用场景实现RejectedExecutionHandler接口，自定义饱和策略，如记录日志或持久化存储不能处理的任务。
+  线程池中允许的最大线程数。如果当前阻塞队列满了，且继续提交任务，则创建新的线程执行任务，前提是当前线程数小于maximumPoolSize；
 
->线程同步和同步锁
+- keepAliveTime
+
+  线程空闲时的存活时间，即当线程没有任务执行时，继续存活的时间；默认情况下，该参数只在线程数大于corePoolSize时才有用；
+
+- unit
+
+  keepAliveTime的单位；
+
+- workQueue
+
+  用来保存等待被执行的任务的阻塞队列，且任务必须实现Runable接口，在JDK中提供了如下阻塞队列：
+  1、ArrayBlockingQueue：基于数组结构的有界阻塞队列，按FIFO排序任务；
+  2、LinkedBlockingQuene：基于链表结构的阻塞队列，按FIFO排序任务，吞吐量通常要高于ArrayBlockingQuene；
+  3、SynchronousQuene：一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于LinkedBlockingQuene；
+  4、priorityBlockingQuene：具有优先级的无界阻塞队列；
+
+- threadFactory
+
+  创建线程的工厂，通过自定义的线程工厂可以给每个新建的线程设置一个具有识别度的线程名。
+
+- handler
+
+  线程池的饱和策略，当阻塞队列满了，且没有空闲的工作线程，如果继续提交任务，必须采取一种策略处理该任务，线程池提供了4种策略：
+  1、AbortPolicy：直接抛出异常，默认策略；
+  2、CallerRunsPolicy：用调用者所在的线程来执行任务；
+  3、DiscardOldestPolicy：丢弃阻塞队列中靠最前的任务，并执行当前任务；
+  4、DiscardPolicy：直接丢弃任务；当然也可以根据应用场景实现RejectedExecutionHandler接口，自定义饱和策略，如记录日志或持久化存储不能处理的任务。
+
+#### 线程同步和同步锁
 
  因为线程的运行权是通过一种叫抢占的方式获得的。一个程序运行到一半的时候，突然被另一个线程获得了运行，此时这个线程的数据处理了一半，而另一个线程的也在处理这个数据，就会造成数据的混乱，最终导致整个系统的混乱。那么这个时候就需要将线程同步，在Java语言中，解决同步问题的方法有三种，一种是synchrnized锁，另一种是lock锁，还有一种是关键字volatile[ˈvɑ:lətl]。
 
@@ -283,7 +298,7 @@ synchronized锁有两种实现方式，一种是同步方法，另外一种是�
 Lock和synchronized有一点非常大的不同，采用synchronized不需要用户去手动释放锁，当synchronized方法或者synchronized代码块执行完之后，系统会自动让线程释放对锁的占用；而Lock则必须要用户去手动释放锁，如果没有主动释放锁，就有可能导致出现死锁现象。
 
 lock主要方法：
-```
+```java
 public interface Lock {
     void lock();
     void lockInterruptibly() throws InterruptedException;
@@ -298,7 +313,8 @@ public interface Lock {
 
 　　首先lock()方法是平常使用得最多的一个方法，就是用来获取锁。如果锁已被其他线程获取，则进行等待。
 　　由于在前面讲到如果采用Lock，必须主动去释放锁，并且在发生异常时，不会自动释放锁。因此一般来说，使用Lock必须在try{}catch{}块中进行，并且将释放锁的操作放在finally块中进行，以保证锁一定被被释放，防止死锁的发生。通常使用Lock来进行同步的话，是以下面这种形式去使用的
-```
+
+```java
 Lock lock = ...;
 lock.lock();
 try{
@@ -314,7 +330,7 @@ tryLock()方法是有返回值的，它表示用来尝试获取锁，如果获�
 tryLock(long time, TimeUnit unit)方法和tryLock()方法是类似的，只不过区别在于这个方法在拿不到锁时会等待一定的时间，在时间期限之内如果还拿不到锁，就返回false。如果如果一开始拿到锁或者在等待期间内拿到了锁，则返回true。
 
 所以，一般情况下通过tryLock来获取锁时是这样使用的：
-```
+```java
 Lock lock = ...;
 if(lock.tryLock()) {
      try{
@@ -332,7 +348,7 @@ lockInterruptibly()方法比较特殊，当通过这个方法去获取锁时，�
 
 由于lockInterruptibly()的声明中抛出了异常，所以lock.lockInterruptibly()必须放在try块中或者在调用lockInterruptibly()的方法外声明抛出InterruptedException。
 因此lockInterruptibly()一般的使用形式如下：
-```
+```java
 public void method() throws InterruptedException {
     lock.lockInterruptibly();
     try {  
@@ -346,7 +362,7 @@ public void method() throws InterruptedException {
 注意，当一个线程获取了锁之后，是不会被interrupt()方法中断的。
 因此当通过lockInterruptibly()方法获取某个锁时，如果不能获取到，只有进行等待的情况下，是可以响应中断的。而用synchronized修饰的话，当一个线程处于等待某个锁的状态，是无法被中断的，只有一直等待下去。
 ##### 3.volatile
-volatile作者在开发过程中没有用到过，但源码里好多地方用到，今天查资料，才发现也可以实现同步，就小小的总结下：
+volatile 作者在开发过程中没有用到过，但源码里好多地方用到，今天查资料，才发现也可以实现同步，就小小的总结下：
 
 我们知道，在创建线程的时候，会给线程分配一些堆栈内存的，那么线程中在操作主存的变量的时候，是怎样操作的呢？是先将主存变量在线程的分配的内存中写一个副本，操作完这个副本之后在，将最新的值传给主存，从而改变变量。
 
@@ -360,7 +376,31 @@ volatile作者在开发过程中没有用到过，但源码里好多地方用到
 5）Lock可以提高多个线程进行读操作的效率。（有具体的实现）
 在性能上来说，如果竞争资源不激烈，两者的性能是差不多的，而当竞争资源非常激烈时（即有大量线程同时竞争），此时Lock的性能要远远优于synchronized。所以说，在具体使用时要根据适当情况选择
 
->死锁
+##### 4. 乐观锁
+
+默认每次操作数据库是,认为不会引起冲突,在操作完成之后,判断是否引起了冲突,添加一个额外的字段,例如版本之类,正常操作每次累加,如果操作完数据之后,发现版本增加了2,那就认为冲突了,然后解决冲突,适用于血操作不频繁的场景.
+
+##### 5. 悲观锁
+
+认为每次操作都会引起冲突,所以在每次操作的时候,添加锁,效率会低
+
+##### 6. 共享锁
+
+一个锁的钥匙有很多吧
+
+##### 7. 排他锁
+
+只有一把钥匙
+
+##### 8. 行锁
+
+对数据库的某一行上锁
+
+##### 9. 表锁
+
+对数据库的某一张表上锁
+
+#### 死锁
 
 ##### 死锁产生的条件：
 互斥条件：一个资源每次只能被一个线程使用。
@@ -371,5 +411,8 @@ volatile作者在开发过程中没有用到过，但源码里好多地方用到
 总归，死锁就是因为同步引起的，你不同步啥事没有，直接原因就是同步循环嵌套，你等我释放，我等你释放，这就好比两人吃西餐，一个人拿着刀，另一个人拿着叉，都想吃那块鲜牛肉，你等着我给你刀，我等着你给我叉，到最后大家都吃不到，这就变成了死锁。
 
 避免方法：
-1.有多个同步嵌套的，按照相同的顺序来获得锁
-2.尽量不要在同步方法里，调用外部方法
+
+1. 有多个同步嵌套的，按照相同的顺序来获得锁
+2. 尽量不要在同步方法里，调用外部方法
+3. 设置加锁时限：（超时重试）在获取锁的时候尝试加一个获取锁的时限，超过时限不需要再获取锁，放弃操作（对锁的请求。）
+

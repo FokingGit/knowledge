@@ -20,8 +20,6 @@ public synchronized ExecutorService executorService() {
   }
 ```
 
-
-
 1. 创建OkHttpClient、Request、Call
 
 2. 通过Call的enqueue方法,发起异步请求
